@@ -1,13 +1,9 @@
 <?php
 
-use Silex\Application;
+use carlescliment\Html2Pdf\Application\Application;
+
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-$app = new Application;
-
-$app->get('/', function (Application $app) {
-    return $app->json(array('status' => 'ready'));
-});
-
-$app->run();
+$app = new Application(true);
+$app->bindControllers()->run();
