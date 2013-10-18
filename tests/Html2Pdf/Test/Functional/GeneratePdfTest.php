@@ -29,14 +29,24 @@ class GeneratePdfTest extends WebTestCase
     /**
      * @test
      */
-    public function itBringsARouteToCreatePDFFilesByAuthor()
+    public function itReturnsTheResourceLocationWhenCreatingAFile()
     {
-        $author = 'chuck';
+        $this->requestFileCreation();
 
-        $this->client->request('POST', "/$author");
-
-        $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertLocationIsProviden();
     }
 
+
+    private function requestFileCreation()
+    {
+        $data = array('content' => '<html><head></head><body>Some html</body></html>');
+        $this->client->request('POST', "/author", $data);
+    }
+
+    private function assertLocationIsProviden()
+    {
+        $response = $this->client->getResponse();
+        $decoded = json_decode($response->getContent());
+        $this->assertTrue(isset($decoded->location));
+    }
 }

@@ -30,7 +30,7 @@ class Application extends SilexApplication
 
             $resource = $generator->generate($author, $request->get('content'));
 
-            return $app->json(array('location' => $resource->location()));
+            return $app->json($resource->toArray());
         });
 
         return $this;

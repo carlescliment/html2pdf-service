@@ -9,12 +9,14 @@ class FileTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itHasALocation()
+    public function itConvertsItselfIntoAnArray()
     {
         $location = '/the/location/to/file';
-
         $file = new File($location);
+        $expected = array('location' => $location);
 
-        $this->assertEquals($location, $file->location());
+        $actual = $file->toArray();
+
+        $this->assertEquals($expected, $actual);
     }
 }

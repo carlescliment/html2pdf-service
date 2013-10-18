@@ -12,8 +12,10 @@ class File
         $this->location = $location;
     }
 
-    public function location()
+    public function toArray()
     {
-        return $this->location;
+        return array(
+            'location' => $this->location
+            );
     }
 }
