@@ -22,6 +22,11 @@ class GeneratePdfTest extends WebTestCase
     {
         $app = new Application(true);
         $app->bindControllers();
+        $app['documents_dir'] = '/tmp';
+        try {
+            unlink('/tmp/output.pdf');
+        }
+        catch(\Exception $e) {}
         return $app;
     }
 
@@ -40,7 +45,7 @@ class GeneratePdfTest extends WebTestCase
     private function requestFileCreation()
     {
         $data = array('content' => '<html><head></head><body>Some html</body></html>');
-        $this->client->request('POST', "/author", $data);
+        $this->client->request('POST', "/", $data);
     }
 
 
@@ -48,6 +53,6 @@ class GeneratePdfTest extends WebTestCase
     {
         $response = $this->client->getResponse();
         $decoded = json_decode($response->getContent());
-        $this->assertTrue(isset($decoded->location));
+        $this->assertTrue(isset($decoded->resource_name));
     }
 }

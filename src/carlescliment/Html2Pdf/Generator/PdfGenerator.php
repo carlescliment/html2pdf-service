@@ -22,7 +22,7 @@ class PdfGenerator
     public function generate($html)
     {
         $file_name = $this->nameGenerator->generate('pdf');
-        $this->pdfGenerator->generate($html, $this->outputDir . '/' . $file_name);
+        $this->pdfGenerator->generateFromHtml($html, $this->outputDir . '/' . $file_name);
         return $file_name;
     }
 }

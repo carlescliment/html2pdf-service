@@ -5,7 +5,8 @@ namespace carlescliment\Html2Pdf\Application;
 use Silex\Application as SilexApplication;
 use Symfony\Component\HttpFoundation\Request;
 
-use carlescliment\Html2Pdf\Generator\PdfGenerator;
+use carlescliment\Html2Pdf\Generator\PdfGenerator,
+    carlescliment\Html2Pdf\Generator\NameGenerator;
 use Knp\Snappy\Pdf;
 
 class Application extends SilexApplication
@@ -27,12 +28,12 @@ class Application extends SilexApplication
             return $app->json(array('status' => 'ready'));
         });
 
-        $this->post('/{author}', function (SilexApplication $app, Request $request, $author) {
+        $this->post('/', function (SilexApplication $app, Request $request) {
             $content = $request->get('content');
 
-            $resource = $this['pdf_generator']->generate($author, $content);
+            $resource_name = $this['pdf_generator']->generate($content);
 
-            return $app->json($resource->toArray());
+            return $app->json(array('resource_name' => $resource_name));
         });
 
         return $this;
@@ -49,7 +50,10 @@ class Application extends SilexApplication
             return $app['root_dir'] . 'bin/wkhtmltopdf';
         };
         $this['pdf_generator'] = function(SilexApplication $app) {
-            return new PdfGenerator(new Pdf($app['pdf_binary']));
+            $name_generator = new NameGenerator;
+            $pdf_maker = new Pdf($app['pdf_binary']);
+            $documents_dir = $app['documents_dir'];
+            return new PdfGenerator($pdf_maker, $name_generator, $documents_dir);
         };
     }
 

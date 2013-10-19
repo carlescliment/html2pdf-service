@@ -28,7 +28,7 @@ class PdfGeneratorTest extends \PHPUnit_Framework_TestCase
         $html = '<html><body>foo</body></html>';
 
         $this->pdfGenerator->expects($this->once())
-            ->method('generate')
+            ->method('generateFromHtml')
             ->with($html);
 
         $this->generator->generate($html);
@@ -56,7 +56,7 @@ class PdfGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->stubGeneratedFileName('some_file_name.pdf');
 
         $this->pdfGenerator->expects($this->once())
-            ->method('generate')
+            ->method('generateFromHtml')
             ->with(null, '/some/dir/some_file_name.pdf');
 
         $this->generator->generate(null);
