@@ -43,6 +43,7 @@ class GeneratePdfTest extends WebTestCase
         $this->client->request('POST', "/author", $data);
     }
 
+
     private function assertLocationIsProviden()
     {
         $response = $this->client->getResponse();
