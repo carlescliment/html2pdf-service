@@ -2,8 +2,7 @@
 
 namespace Html2Pdf\Test\Functional;
 
-use Silex\WebTestCase,
-    Silex\Application as SilexApplication;
+use Silex\WebTestCase;
 
 use carlescliment\Html2Pdf\Application\Application;
 

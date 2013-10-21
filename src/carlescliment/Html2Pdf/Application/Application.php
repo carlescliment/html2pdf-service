@@ -64,7 +64,14 @@ class Application extends SilexApplication
                 return $app->json($error, 409);
             }
 
-            return $app->json(array('resource_name' => $resource_name));
+            return $app->json(array('resource_name' => $resource_name, 'message' => 'ok'));
+        });
+
+
+        $this->delete('/{file_name}', function (SilexApplication $app, $file_name) {
+            $full_path = $app['documents_dir'] . '/' . $file_name . '.pdf';
+            unlink($full_path);
+            return $app->json(array('message' => 'ok'));
         });
 
         return $this;
