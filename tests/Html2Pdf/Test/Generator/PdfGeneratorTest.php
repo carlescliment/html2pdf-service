@@ -45,6 +45,7 @@ class PdfGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->generator->generate('filename', null);
     }
 
+
     /**
      * @test
      */
@@ -55,4 +56,17 @@ class PdfGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('file_name.pdf', $file_name);
     }
 
+
+    /**
+     * @test
+     * @expectedException carlescliment\Html2Pdf\Exception\DocumentAlreadyExistsException
+     */
+    public function itThrowsAnExceptionIfFileAlreadyExists()
+    {
+        $this->pdfGenerator->expects($this->any())
+            ->method('generateFromHtml')
+            ->will($this->throwException(new \InvalidArgumentException));
+
+        $this->generator->generate('file_name', null);
+    }
 }

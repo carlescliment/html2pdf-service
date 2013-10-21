@@ -6,6 +6,7 @@ use Silex\Application as SilexApplication;
 use Symfony\Component\HttpFoundation\Request;
 
 use carlescliment\Html2Pdf\Generator\PdfGenerator;
+use carlescliment\Html2Pdf\Exception\DocumentAlreadyExistsException;
 use Knp\Snappy\Pdf;
 
 class Application extends SilexApplication
@@ -54,8 +55,14 @@ class Application extends SilexApplication
 
         $this->put('/{file_name}', function (SilexApplication $app, Request $request, $file_name) {
             $content = $request->get('content');
-
-            $resource_name = $this['pdf_generator']->generate($file_name, $content);
+            try {
+                $resource_name = $this['pdf_generator']->generate($file_name, $content);
+            }
+            catch (DocumentAlreadyExistsException $e)
+            {
+                $error = array('message' => $e->getMessage());
+                return $app->json($error, 409);
+            }
 
             return $app->json(array('resource_name' => $resource_name));
         });
