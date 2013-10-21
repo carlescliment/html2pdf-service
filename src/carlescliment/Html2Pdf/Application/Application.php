@@ -70,10 +70,12 @@ class Application extends SilexApplication
 
         $this->delete('/{file_name}', function (SilexApplication $app, $file_name) {
             $full_path = $app['documents_dir'] . '/' . $file_name . '.pdf';
+            $code = 404;
             if (file_exists($full_path)) {
+                $code = 200;
                 unlink($full_path);
             }
-            return $app->json(array('message' => 'ok'));
+            return $app->json(array('message' => 'ok'), $code);
         });
 
         return $this;

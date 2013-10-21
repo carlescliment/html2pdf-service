@@ -21,14 +21,14 @@ class DeletePdfTest extends Html2PdfTestCase
     /**
      * @test
      */
-    public function itDoesNotThrowErrorsWhenDeletingUnexistingResources()
+    public function itReturnsANotFoundWhenDeletingUnexistingResources()
     {
         $this->assertResourceDoesNotExist('output');
 
         $this->requestResourceDeletion('output');
 
         $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(404, $response->getStatusCode());
     }
 
 
@@ -36,6 +36,5 @@ class DeletePdfTest extends Html2PdfTestCase
     {
         $this->client->request('DELETE', "/$file_name");
     }
-
 
 }
