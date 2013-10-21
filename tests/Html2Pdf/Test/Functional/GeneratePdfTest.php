@@ -14,9 +14,9 @@ class GeneratePdfTest extends Html2PdfTestCase
     /**
      * @test
      */
-    public function itReturnsTheResourceLocationWhenCreatingAFile()
+    public function itReturnsTheResourceLocationWhenCreatingAResource()
     {
-        $this->requestFileCreation();
+        $this->requestResourceCreation();
 
         $this->assertLocationIsProviden();
     }
@@ -27,18 +27,18 @@ class GeneratePdfTest extends Html2PdfTestCase
      */
     public function itReturnsAResponseErrorWhenTheResourceAlreadyExists()
     {
-        $this->createResource('output.pdf');
+        $this->createResource('output');
 
-        $this->requestFileCreation();
+        $this->requestResourceCreation('output');
 
         $this->assertAlreadyExistingErrorIsReturned();
     }
 
 
-    private function requestFileCreation($file_name = 'output')
+    private function requestResourceCreation($resource_name = 'output')
     {
         $data = array('content' => '<html><head></head><body>Some html</body></html>');
-        $this->client->request('PUT', "/$file_name", $data);
+        $this->client->request('PUT', "/$resource_name", $data);
     }
 
 

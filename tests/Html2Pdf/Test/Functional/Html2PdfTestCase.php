@@ -41,8 +41,16 @@ class Html2PdfTestCase extends WebTestCase
         }
     }
 
+
+    protected function assertResourceDoesNotExist($resource_name)
+    {
+        $file_exists = file_exists($this->getFileFromResource($resource_name));
+        $this->assertFalse($file_exists);
+    }
+
+
     private function getFileFromResource($resource_name)
     {
-        return "$this->documentsDir/$resource_name";
+        return "$this->documentsDir/$resource_name.pdf";
     }
 }

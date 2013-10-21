@@ -8,26 +8,34 @@ class DeletePdfTest extends Html2PdfTestCase
     /**
      * @test
      */
-    public function itDeletesExistingFiles()
+    public function itDeletesExistingResources()
     {
         $this->createResource('output');
 
-        $this->requestFileDeletion('output');
+        $this->requestResourceDeletion('output');
 
-        $this->assertFileDoesNotExist('output.pdf');
+        $this->assertResourceDoesNotExist('output');
     }
 
 
-    private function requestFileDeletion($file_name)
+    /**
+     * @test
+     */
+    public function itDoesNotThrowErrorsWhenDeletingUnexistingResources()
+    {
+        $this->assertResourceDoesNotExist('output');
+
+        $this->requestResourceDeletion('output');
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+
+    private function requestResourceDeletion($file_name)
     {
         $this->client->request('DELETE', "/$file_name");
     }
 
-
-    private function assertFileDoesNotExist($file_name)
-    {
-        $full_name = '/tmp/' . $file_name;
-        $this->assertFalse(file_exists($full_name));
-    }
 
 }
