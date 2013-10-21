@@ -33,7 +33,7 @@ class Application extends SilexApplication
     private function initializeDependencies()
     {
         $this['documents_dir'] = function(SilexApplication $app) {
-            return $this->rootDir . 'documents';
+            return $this->rootDir . 'web/documents';
         };
         $this['pdf_binary'] = function(SilexApplication $app) {
             return $this->rootDir . 'bin/wkhtmltopdf';
