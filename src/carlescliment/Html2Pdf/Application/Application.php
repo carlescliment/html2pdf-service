@@ -11,14 +11,22 @@ use Knp\Snappy\Pdf;
 
 class Application extends SilexApplication
 {
+    private $rootDir;
 
-    public function __construct($debug = false)
+
+    public function __construct($root_dir, $debug = false)
     {
         parent::__construct();
+        $this->rootDir = $root_dir;
+        $this->setDebugMode($debug);
+        $this->initializeDependencies();
+    }
+
+    private function setDebugMode($debug)
+    {
         if ($debug) {
             $this['exception_handler']->disable();
         }
-        $this->initializeDependencies();
     }
 
     public function bindControllers()
@@ -42,12 +50,11 @@ class Application extends SilexApplication
 
     private function initializeDependencies()
     {
-        $this['root_dir'] = $this->getRootDir();
         $this['documents_dir'] = function(SilexApplication $app) {
-            return $app['root_dir'] . 'documents';
+            return $this->rootDir . 'documents';
         };
         $this['pdf_binary'] = function(SilexApplication $app) {
-            return $app['root_dir'] . 'bin/wkhtmltopdf';
+            return $this->rootDir . 'bin/wkhtmltopdf';
         };
         $this['pdf_generator'] = function(SilexApplication $app) {
             $name_generator = new NameGenerator;
@@ -55,11 +62,5 @@ class Application extends SilexApplication
             $documents_dir = $app['documents_dir'];
             return new PdfGenerator($pdf_maker, $name_generator, $documents_dir);
         };
-    }
-
-
-    private function getRootDir()
-    {
-        return __DIR__ . '/../../../../';
     }
 }
