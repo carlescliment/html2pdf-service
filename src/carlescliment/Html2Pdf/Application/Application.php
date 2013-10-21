@@ -19,6 +19,7 @@ class Application extends SilexApplication
         $this->rootDir = $root_dir;
         $this->setDebugMode($debug);
         $this->initializeDependencies();
+        $this->bindControllers();
     }
 
     private function setDebugMode($debug)
@@ -26,24 +27,6 @@ class Application extends SilexApplication
         if ($debug) {
             $this['exception_handler']->disable();
         }
-    }
-
-    public function bindControllers()
-    {
-
-        $this->get('/', function (SilexApplication $app) {
-            return $app->json(array('status' => 'ready'));
-        });
-
-        $this->put('/{file_name}', function (SilexApplication $app, Request $request, $file_name) {
-            $content = $request->get('content');
-
-            $resource_name = $this['pdf_generator']->generate($file_name, $content);
-
-            return $app->json(array('resource_name' => $resource_name));
-        });
-
-        return $this;
     }
 
 
@@ -61,4 +44,23 @@ class Application extends SilexApplication
             return new PdfGenerator($pdf_maker, $documents_dir);
         };
     }
+
+
+    private function bindControllers()
+    {
+        $this->get('/', function (SilexApplication $app) {
+            return $app->json(array('status' => 'ready'));
+        });
+
+        $this->put('/{file_name}', function (SilexApplication $app, Request $request, $file_name) {
+            $content = $request->get('content');
+
+            $resource_name = $this['pdf_generator']->generate($file_name, $content);
+
+            return $app->json(array('resource_name' => $resource_name));
+        });
+
+        return $this;
+    }
+
 }

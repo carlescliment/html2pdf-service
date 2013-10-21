@@ -21,7 +21,6 @@ class GeneratePdfTest extends WebTestCase
     public function createApplication()
     {
         $app = new Application(__DIR__ .'/../../../../', true);
-        $app->bindControllers();
         $app['documents_dir'] = '/tmp';
         try {
             unlink('/tmp/output.pdf');
