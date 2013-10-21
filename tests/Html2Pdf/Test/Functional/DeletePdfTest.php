@@ -2,35 +2,15 @@
 
 namespace Html2Pdf\Test\Functional;
 
-use Silex\WebTestCase;
-
-use carlescliment\Html2Pdf\Application\Application;
-
-class DeletePdfTest extends WebTestCase
+class DeletePdfTest extends Html2PdfTestCase
 {
-
-    private $client;
-
-    public function setUp()
-    {
-        parent::setUp();
-        $this->client = $this->createClient();
-    }
-
-
-    public function createApplication()
-    {
-        $app = new Application(__DIR__ .'/../../../../', true);
-        $app['documents_dir'] = '/tmp';
-        return $app;
-    }
 
     /**
      * @test
      */
     public function itDeletesExistingFiles()
     {
-        $this->createFile('output.pdf');
+        $this->createResource('output');
 
         $this->requestFileDeletion('output');
 
@@ -43,12 +23,6 @@ class DeletePdfTest extends WebTestCase
         $this->client->request('DELETE', "/$file_name");
     }
 
-
-    private function createFile($file_name)
-    {
-        $file = fopen('/tmp/' . $file_name, 'w');
-        fclose($file);
-    }
 
     private function assertFileDoesNotExist($file_name)
     {

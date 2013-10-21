@@ -2,38 +2,14 @@
 
 namespace Html2Pdf\Test\Functional;
 
-use Silex\WebTestCase;
-
-use carlescliment\Html2Pdf\Application\Application;
-
-class GeneratePdfTest extends WebTestCase
+class GeneratePdfTest extends Html2PdfTestCase
 {
-
-    private $client;
 
     public function setUp()
     {
         parent::setUp();
-        $this->client = $this->createClient();
-        $this->deleteFixtures();
+        $this->deleteResource('output');
     }
-
-
-    private function deleteFixtures()
-    {
-        $file_name = '/tmp/output.pdf';
-        if (file_exists($file_name)) {
-            unlink($file_name);
-        }
-    }
-
-    public function createApplication()
-    {
-        $app = new Application(__DIR__ .'/../../../../', true);
-        $app['documents_dir'] = '/tmp';
-        return $app;
-    }
-
 
     /**
      * @test
@@ -51,7 +27,7 @@ class GeneratePdfTest extends WebTestCase
      */
     public function itReturnsAResponseErrorWhenTheResourceAlreadyExists()
     {
-        $this->createFile('output.pdf');
+        $this->createResource('output.pdf');
 
         $this->requestFileCreation();
 
@@ -72,13 +48,6 @@ class GeneratePdfTest extends WebTestCase
         $decoded = json_decode($response->getContent());
         $this->assertTrue(isset($decoded->resource_name));
         $this->assertEquals(200, $response->getStatusCode());
-    }
-
-
-    private function createFile($file_name)
-    {
-        $file = fopen('/tmp/' . $file_name, 'w');
-        fclose($file);
     }
 
     private function assertAlreadyExistingErrorIsReturned()
