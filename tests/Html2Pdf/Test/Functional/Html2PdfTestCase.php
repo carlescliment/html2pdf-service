@@ -49,6 +49,30 @@ class Html2PdfTestCase extends WebTestCase
     }
 
 
+    protected function assertResponseIsSuccessful()
+    {
+        $this->assertResponseCode(200);
+    }
+
+
+    protected function assertResponseIsNotFound()
+    {
+        $this->assertResponseCode(404);
+    }
+
+
+    protected function assertResponseIsConflict()
+    {
+        $this->assertResponseCode(409);
+    }
+
+    protected function assertResponseCode($code)
+    {
+        $response = $this->client->getResponse();
+        $this->assertEquals($code, $response->getStatusCode());
+    }
+
+
     private function getFileFromResource($resource_name)
     {
         return "$this->documentsDir/$resource_name.pdf";

@@ -31,7 +31,7 @@ class GeneratePdfTest extends Html2PdfTestCase
 
         $this->requestResourceCreation('output');
 
-        $this->assertAlreadyExistingErrorIsReturned();
+        $this->assertResponseIsConflict();
     }
 
 
@@ -47,12 +47,7 @@ class GeneratePdfTest extends Html2PdfTestCase
         $response = $this->client->getResponse();
         $decoded = json_decode($response->getContent());
         $this->assertTrue(isset($decoded->resource_name));
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertResponseIsSuccessful();
     }
 
-    private function assertAlreadyExistingErrorIsReturned()
-    {
-        $response = $this->client->getResponse();
-        $this->assertEquals(409, $response->getStatusCode());
-    }
 }

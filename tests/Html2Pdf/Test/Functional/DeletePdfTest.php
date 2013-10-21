@@ -27,8 +27,7 @@ class DeletePdfTest extends Html2PdfTestCase
 
         $this->requestResourceDeletion('output');
 
-        $response = $this->client->getResponse();
-        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertResponseIsNotFound();
     }
 
 
