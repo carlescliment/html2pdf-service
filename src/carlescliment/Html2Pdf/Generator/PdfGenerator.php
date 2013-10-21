@@ -10,19 +10,16 @@ class PdfGenerator
     private $pdfGenerator;
     private $outputDir;
 
-    public function __construct(GeneratorInterface $pdfGenerator,
-                                NameGenerator $nameGenerator,
-                                $output_dir)
+    public function __construct(GeneratorInterface $pdfGenerator, $output_dir)
     {
         $this->pdfGenerator = $pdfGenerator;
-        $this->nameGenerator = $nameGenerator;
         $this->outputDir = $output_dir;
     }
 
-    public function generate($html)
+    public function generate($file_name, $html)
     {
-        $file_name = $this->nameGenerator->generate('pdf');
-        $this->pdfGenerator->generateFromHtml($html, $this->outputDir . '/' . $file_name);
-        return $file_name;
+        $full_name = "$file_name.pdf";
+        $this->pdfGenerator->generateFromHtml($html, $this->outputDir . '/' . $full_name);
+        return $full_name;
     }
 }

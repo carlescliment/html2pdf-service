@@ -8,15 +8,13 @@ class PdfGeneratorTest extends \PHPUnit_Framework_TestCase
 {
 
     private $pdfGenerator;
-    private $nameGenerator;
     private $generator;
     private $outputDir;
 
     public function setUp() {
         $this->pdfGenerator = $this->getMock('Knp\Snappy\GeneratorInterface');
         $this->outputDir = '/some/dir';
-        $this->nameGenerator = $this->getMock('carlescliment\Html2Pdf\Generator\NameGenerator');
-        $this->generator = new PdfGenerator($this->pdfGenerator, $this->nameGenerator, $this->outputDir);
+        $this->generator = new PdfGenerator($this->pdfGenerator, $this->outputDir);
     }
 
 
@@ -31,20 +29,7 @@ class PdfGeneratorTest extends \PHPUnit_Framework_TestCase
             ->method('generateFromHtml')
             ->with($html);
 
-        $this->generator->generate($html);
-    }
-
-
-    /**
-     * @test
-     */
-    public function itGeneratesANameForTheOutputFile()
-    {
-        $this->nameGenerator->expects($this->once())
-            ->method('generate')
-            ->with('pdf');
-
-        $this->generator->generate(null);
+        $this->generator->generate('filename', $html);
     }
 
 
@@ -53,13 +38,11 @@ class PdfGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function itPutsTheFileInTheSpecifiedFolder()
     {
-        $this->stubGeneratedFileName('some_file_name.pdf');
-
         $this->pdfGenerator->expects($this->once())
             ->method('generateFromHtml')
-            ->with(null, '/some/dir/some_file_name.pdf');
+            ->with(null, '/some/dir/filename.pdf');
 
-        $this->generator->generate(null);
+        $this->generator->generate('filename', null);
     }
 
     /**
@@ -67,19 +50,9 @@ class PdfGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function itReturnsTheOutputFileName()
     {
-        $this->stubGeneratedFileName('some_file_name.pdf');
+        $file_name = $this->generator->generate('file_name', null);
 
-        $file_name = $this->generator->generate('');
-
-        $this->assertEquals('some_file_name.pdf', $file_name);
-    }
-
-
-    private function stubGeneratedFileName($generated_file_name)
-    {
-        $this->nameGenerator->expects($this->any())
-            ->method('generate')
-            ->will($this->returnValue($generated_file_name));
+        $this->assertEquals('file_name.pdf', $file_name);
     }
 
 }

@@ -45,7 +45,7 @@ class GeneratePdfTest extends WebTestCase
     private function requestFileCreation()
     {
         $data = array('content' => '<html><head></head><body>Some html</body></html>');
-        $this->client->request('POST', "/", $data);
+        $this->client->request('PUT', "/output", $data);
     }
 
 
