@@ -33,7 +33,7 @@ class Html2PdfTestCase extends WebTestCase
         fclose($file);
     }
 
-    protected function deleteResource($resource_name)
+    protected function deleteResourceIfExists($resource_name)
     {
         $file_name = $this->getFileFromResource($resource_name);
         if (file_exists($file_name)) {

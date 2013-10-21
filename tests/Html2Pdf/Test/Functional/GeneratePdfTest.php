@@ -8,7 +8,7 @@ class GeneratePdfTest extends Html2PdfTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->deleteResource('output');
+        $this->deleteResourceIfExists('output');
     }
 
     /**

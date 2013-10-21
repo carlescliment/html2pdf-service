@@ -23,7 +23,7 @@ class DeletePdfTest extends Html2PdfTestCase
      */
     public function itReturnsANotFoundWhenDeletingUnexistingResources()
     {
-        $this->deleteResource('output');
+        $this->deleteResourceIfExists('output');
 
         $this->requestResourceDeletion('output');
 
