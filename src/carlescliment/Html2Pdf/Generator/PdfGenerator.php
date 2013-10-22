@@ -17,21 +17,26 @@ class PdfGenerator
         $this->outputDir = $output_dir;
     }
 
-    public function generate($file_name, $html)
+    public function generate($resource_name, $html)
     {
-        $full_name = "$file_name.pdf";
-        $this->tryToGenerateDocument($html, $full_name);
-        return $full_name;
+        $document_path = $this->fullDocumentPath($resource_name);
+        $this->tryToGenerateDocument($html, $document_path);
+        return $document_path;
     }
 
 
-    private function tryToGenerateDocument($html, $full_name)
+    private function tryToGenerateDocument($html, $document_path)
     {
         try {
-            $this->pdfGenerator->generateFromHtml($html, $this->outputDir . '/' . $full_name);
+            $this->pdfGenerator->generateFromHtml($html, $document_path);
         }
         catch (\InvalidArgumentException $e) {
             throw new DocumentAlreadyExistsException('The resource already exists');
         }
+    }
+
+    private function fullDocumentPath($resource_name)
+    {
+        return "$this->outputDir/$resource_name.pdf";
     }
 }

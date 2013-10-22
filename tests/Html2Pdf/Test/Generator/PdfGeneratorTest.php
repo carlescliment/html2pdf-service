@@ -49,11 +49,11 @@ class PdfGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itReturnsTheOutputFileName()
+    public function itReturnsTheResourceLocation()
     {
         $file_name = $this->generator->generate('file_name', null);
 
-        $this->assertEquals('file_name.pdf', $file_name);
+        $this->assertEquals('/some/dir/file_name.pdf', $file_name);
     }
 
 
