@@ -10,18 +10,20 @@ class PdfGenerator
 
     private $pdfGenerator;
     private $outputDir;
+    private $publicPath;
 
-    public function __construct(GeneratorInterface $pdfGenerator, $output_dir)
+    public function __construct(GeneratorInterface $pdfGenerator, $output_dir, $public_path)
     {
         $this->pdfGenerator = $pdfGenerator;
         $this->outputDir = $output_dir;
+        $this->publicPath = $public_path;
     }
 
     public function generate($resource_name, $html)
     {
-        $document_path = $this->fullDocumentPath($resource_name);
+        $document_path = $this->privatePath($resource_name);
         $this->tryToGenerateDocument($html, $document_path);
-        return $document_path;
+        return $this->publicPath($resource_name);
     }
 
 
@@ -31,12 +33,18 @@ class PdfGenerator
             $this->pdfGenerator->generateFromHtml($html, $document_path);
         }
         catch (\InvalidArgumentException $e) {
+            throw new DocumentAlreadyExistsException($e->getMessage());
             throw new DocumentAlreadyExistsException('The resource already exists');
         }
     }
 
-    private function fullDocumentPath($resource_name)
+    private function privatePath($resource_name)
     {
         return "$this->outputDir/$resource_name.pdf";
+    }
+
+    private function publicPath($resource_name)
+    {
+        return "$this->publicPath/$resource_name.pdf";
     }
 }

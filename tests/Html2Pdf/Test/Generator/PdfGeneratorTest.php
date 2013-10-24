@@ -9,12 +9,10 @@ class PdfGeneratorTest extends \PHPUnit_Framework_TestCase
 
     private $pdfGenerator;
     private $generator;
-    private $outputDir;
 
     public function setUp() {
         $this->pdfGenerator = $this->getMock('Knp\Snappy\GeneratorInterface');
-        $this->outputDir = '/some/dir';
-        $this->generator = new PdfGenerator($this->pdfGenerator, $this->outputDir);
+        $this->generator = new PdfGenerator($this->pdfGenerator, '/some/dir', '/web/documents');
     }
 
 
@@ -53,7 +51,7 @@ class PdfGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $file_name = $this->generator->generate('file_name', null);
 
-        $this->assertEquals('/some/dir/file_name.pdf', $file_name);
+        $this->assertEquals('/web/documents/file_name.pdf', $file_name);
     }
 
 
