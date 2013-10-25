@@ -54,10 +54,10 @@ class Application extends SilexApplication
         $this->get('/{resource}', function (SilexApplication $app, $resource) {
             $file = $app->getFileFromResource($resource);
             if (!file_exists($file)) {
-                return $app->json(array('message' => 'Not found'), 404);
+                return $app->json(array('body' => 'Not found'), 404);
             }
             $contents = readfile($file);
-            return $app->json(array('message' => base64_encode($contents)));
+            return $app->json(array('body' => base64_encode($contents)));
         });
 
 
@@ -68,9 +68,9 @@ class Application extends SilexApplication
             }
             catch (DocumentAlreadyExistsException $e)
             {
-                return $app->json(array('message' => $e->getMessage()), 409);
+                return $app->json(array('body' => $e->getMessage()), 409);
             }
-            return $app->json(array('message' => 'ok'));
+            return $app->json(array('body' => 'ok'));
         });
 
 
@@ -81,7 +81,7 @@ class Application extends SilexApplication
                 $code = 200;
                 unlink($file);
             }
-            return $app->json(array('message' => 'ok'), $code);
+            return $app->json(array('body' => 'ok'), $code);
         });
 
         return $this;
