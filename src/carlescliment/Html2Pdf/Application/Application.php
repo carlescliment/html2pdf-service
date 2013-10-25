@@ -34,11 +34,13 @@ class Application extends SilexApplication
     private function initializeDependencies()
     {
         $this['documents_dir'] = function(SilexApplication $app) {
-            return $this->rootDir . '/documents';
+            return $this->rootDir . 'documents';
         };
+
         $this['pdf_binary'] = function(SilexApplication $app) {
             return $this->rootDir . 'bin/wkhtmltopdf';
         };
+
         $this['pdf_generator'] = function(SilexApplication $app) {
             $pdf_maker = new Pdf($app['pdf_binary']);
             $documents_dir = $app['documents_dir'];
@@ -49,14 +51,14 @@ class Application extends SilexApplication
 
     private function bindControllers()
     {
-        $this->get('/{file_name}', function (SilexApplication $app, $file_name) {
-            return $app->json(array('status' => 'ready'));
+        $this->get('/{resource}', function (SilexApplication $app, $resource) {
+            return $app->sendFile($app->getFileNameFromResource($resource));
         });
 
-        $this->put('/{file_name}', function (SilexApplication $app, Request $request, $file_name) {
+        $this->put('/{resource}', function (SilexApplication $app, Request $request, $resource) {
             $content = $request->get('content');
             try {
-                $resource_name = $this['pdf_generator']->generate($file_name, $content);
+                $resource_name = $this['pdf_generator']->generate($resource, $content);
             }
             catch (DocumentAlreadyExistsException $e)
             {
@@ -68,8 +70,8 @@ class Application extends SilexApplication
         });
 
 
-        $this->delete('/{file_name}', function (SilexApplication $app, $file_name) {
-            $full_path = $app['documents_dir'] . '/' . $file_name . '.pdf';
+        $this->delete('/{resource}', function (SilexApplication $app, $resource) {
+            $full_path = $app->getFileNameFromResource($resource);
             $code = 404;
             if (file_exists($full_path)) {
                 $code = 200;
@@ -79,6 +81,12 @@ class Application extends SilexApplication
         });
 
         return $this;
+    }
+
+
+    public function getFileNameFromResource($resource)
+    {
+        return $this['documents_dir'] . '/' . $resource .'.pdf';
     }
 
 }
