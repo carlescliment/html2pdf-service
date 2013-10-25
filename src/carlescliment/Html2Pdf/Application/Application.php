@@ -56,7 +56,7 @@ class Application extends SilexApplication
             if (!file_exists($file)) {
                 return $app->json(array('body' => 'Not found'), 404);
             }
-            $contents = readfile($file);
+            $contents = file_get_contents($file);
             return $app->json(array('body' => base64_encode($contents), 'encoding' => 'base64'));
         });
 
