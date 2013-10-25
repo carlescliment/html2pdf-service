@@ -14,13 +14,24 @@ class GetPdfTest extends Html2PdfTestCase
     /**
      * @test
      */
-    public function itReturnsTheResourceLocationWhenCreatingAResource()
+    public function itReturnsTheResourceIfExists()
     {
         $this->createResource('output');
 
         $this->client->request('GET', '/output');
 
         $this->assertResponseIsSuccessful();
+    }
+
+
+    /**
+     * @test
+     */
+    public function itReturnsANotFoundIFTheResourceDoesNotExists()
+    {
+        $this->client->request('GET', '/unexisting');
+
+        $this->assertResponseIsNotFound();
     }
 
 }

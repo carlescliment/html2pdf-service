@@ -52,30 +52,34 @@ class Application extends SilexApplication
     private function bindControllers()
     {
         $this->get('/{resource}', function (SilexApplication $app, $resource) {
-            return $app->sendFile($app->getFileNameFromResource($resource));
+            $file = $app->getFileFromResource($resource);
+            if (!file_exists($file)) {
+                return $app->json(array('message' => 'Not found'), 404);
+            }
+            $contents = readfile($file);
+            return $app->json(array('message' => base64_encode($contents)));
         });
+
 
         $this->put('/{resource}', function (SilexApplication $app, Request $request, $resource) {
             $content = $request->get('content');
             try {
-                $resource_name = $this['pdf_generator']->generate($resource, $content);
+                $this['pdf_generator']->generate($resource, $content);
             }
             catch (DocumentAlreadyExistsException $e)
             {
-                $error = array('message' => $e->getMessage());
-                return $app->json($error, 409);
+                return $app->json(array('message' => $e->getMessage()), 409);
             }
-
-            return $app->json(array('resource_name' => $resource_name, 'message' => 'ok'));
+            return $app->json(array('message' => 'ok'));
         });
 
 
         $this->delete('/{resource}', function (SilexApplication $app, $resource) {
-            $full_path = $app->getFileNameFromResource($resource);
+            $file = $app->getFileFromResource($resource);
             $code = 404;
-            if (file_exists($full_path)) {
+            if (file_exists($file)) {
                 $code = 200;
-                unlink($full_path);
+                unlink($file);
             }
             return $app->json(array('message' => 'ok'), $code);
         });
@@ -84,7 +88,7 @@ class Application extends SilexApplication
     }
 
 
-    public function getFileNameFromResource($resource)
+    public function getFileFromResource($resource)
     {
         return $this['documents_dir'] . '/' . $resource .'.pdf';
     }
