@@ -33,14 +33,8 @@ class Application extends SilexApplication
 
     private function initializeDependencies()
     {
-        $this['root_dir'] = function(SilexApplication $app) {
-            return $this->rootDir . 'web/documents';
-        };
-        $this['documents_public_path'] = function(SilexApplication $app) {
-            return '/web/documents';
-        };
         $this['documents_dir'] = function(SilexApplication $app) {
-            return $this->rootDir . $app['documents_public_path'];
+            return $this->rootDir . '/documents';
         };
         $this['pdf_binary'] = function(SilexApplication $app) {
             return $this->rootDir . 'bin/wkhtmltopdf';
@@ -48,15 +42,14 @@ class Application extends SilexApplication
         $this['pdf_generator'] = function(SilexApplication $app) {
             $pdf_maker = new Pdf($app['pdf_binary']);
             $documents_dir = $app['documents_dir'];
-            $public_path = $app['documents_public_path'];
-            return new PdfGenerator($pdf_maker, $documents_dir, $public_path);
+            return new PdfGenerator($pdf_maker, $documents_dir);
         };
     }
 
 
     private function bindControllers()
     {
-        $this->get('/', function (SilexApplication $app) {
+        $this->get('/{file_name}', function (SilexApplication $app, $file_name) {
             return $app->json(array('status' => 'ready'));
         });
 

@@ -2,7 +2,7 @@
 
 namespace Html2Pdf\Test\Functional;
 
-class GeneratePdfTest extends Html2PdfTestCase
+class CreatePdfTest extends Html2PdfTestCase
 {
 
     public function setUp()
@@ -16,9 +16,9 @@ class GeneratePdfTest extends Html2PdfTestCase
      */
     public function itReturnsTheResourceLocationWhenCreatingAResource()
     {
-        $this->requestResourceCreation();
+        $this->requestResourceCreation('output');
 
-        $this->assertLocationIsProviden();
+        $this->assertResourceExists('output');
     }
 
 
@@ -35,19 +35,10 @@ class GeneratePdfTest extends Html2PdfTestCase
     }
 
 
-    private function requestResourceCreation($resource_name = 'output')
+    private function requestResourceCreation($resource_name)
     {
         $data = array('content' => '<html><head></head><body>Some html</body></html>');
         $this->client->request('PUT', "/$resource_name", $data);
-    }
-
-
-    private function assertLocationIsProviden()
-    {
-        $response = $this->client->getResponse();
-        $decoded = json_decode($response->getContent());
-        $this->assertTrue(isset($decoded->resource_name));
-        $this->assertResponseIsSuccessful();
     }
 
 }

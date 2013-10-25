@@ -1,7 +1,7 @@
 {
     "name": "carlescliment/html2pdf-service",
     "description": "A REST microservice that converts html input into pdf files. Written in Silex.",
-    "version": "0.0.1-dev",
+    "version": "0.0.1",
     "type": "project",
     "keywords": ["printing", "pdf"],
     "license": "GPL-2.0",

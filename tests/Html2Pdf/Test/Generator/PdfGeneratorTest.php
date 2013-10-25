@@ -46,17 +46,6 @@ class PdfGeneratorTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     */
-    public function itReturnsTheResourceLocation()
-    {
-        $file_name = $this->generator->generate('file_name', null);
-
-        $this->assertEquals('/web/documents/file_name.pdf', $file_name);
-    }
-
-
-    /**
-     * @test
      * @expectedException carlescliment\Html2Pdf\Exception\DocumentAlreadyExistsException
      */
     public function itThrowsAnExceptionIfFileAlreadyExists()
