@@ -33,7 +33,7 @@ Three different operations are provided:
 | DELETE        | /{document_name} |                    | Deletes the document, if exists |
 
 
-The response is always a json with a `body` key. In the GET case, it can also contain an `encoding` key telling telling the encoding used to return the document.
+The response is always a json with a `body` key. In the GET case, it can also contain an `encoding` key with the encoding used to return the document.
 
 
 
@@ -48,8 +48,8 @@ $app['default_settings'] = function() {
     return array(
         'encoding' => 'latin-1',
         'page-size' => 'Letter',
-        )
-}
+        );
+};
 
 $app->run();
 ```
@@ -57,7 +57,7 @@ $app->run();
 
 ## Client-side implementations
 
-(Symfony 2 Bundle)[https://github.com/carlescliment/Html2PdfServiceBundle]
+* [Symfony 2 Bundle](https://github.com/carlescliment/Html2PdfServiceBundle)
 
 
 ## TO-DO
