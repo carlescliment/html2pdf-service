@@ -41,11 +41,11 @@ class Application extends SilexApplication
         };
 
         $this['documents_dir'] = function(SilexApplication $app) {
-            return $this->rootDir . 'documents';
+            return $app->getRootDir() . 'documents';
         };
 
         $this['pdf_binary'] = function(SilexApplication $app) {
-            return $this->rootDir . 'bin/wkhtmltopdf';
+            return $app->getRootDir() . 'bin/wkhtmltopdf';
         };
 
         $this['pdf_generator'] = function(SilexApplication $app) {
@@ -100,4 +100,9 @@ class Application extends SilexApplication
         return $this['documents_dir'] . '/' . $resource .'.pdf';
     }
 
+
+    public function getRootDir()
+    {
+        return $this->rootDir;
+    }
 }
