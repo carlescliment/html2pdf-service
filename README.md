@@ -14,6 +14,8 @@ $ sudo setfacl -R -m u:$APACHEUSER:rwX -m u:`whoami`:rwX documents
 $ sudo setfacl -dR -m u:$APACHEUSER:rwX -m u:`whoami`:rwX documents
 ```
 
+Update vendors running `php /path/to/your/composer.phar update`
+
 Configure the web server to attend requests to your installation.
 
 
