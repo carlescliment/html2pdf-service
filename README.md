@@ -23,9 +23,9 @@ Three different operations are provided:
 
 | Verb          | Route            | Request parameters | Description         |
 | ------------- | ---------------- | ------------------ | ------------------- |
-| PUT           | /{resource_name} | content            | Generates the PDF resource {resource_name} from the given html content |
-| GET           | /{resource_name} |                    | Brings the document |
-| DELETE        | /{resource_name} |                    | Deletes the document, if exists |
+| PUT           | /{document_name} | content            | Generates the PDF document {document_name} from the given html content |
+| GET           | /{document_name} |                    | Brings the document |
+| DELETE        | /{document_name} |                    | Deletes the document, if exists |
 
 
 The response is always a json with a `body` key. In the GET case, it can also contain an `encoding` key telling telling the encoding used to return the document.
