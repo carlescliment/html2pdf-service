@@ -54,7 +54,7 @@ $app->run();
 
 ## Client-side implementations
 
-(Symfony 2 Bundle)[https://github.com/carlescliment/Html2PdfServiceBundle]
+* [Symfony 2 Bundle](https://github.com/carlescliment/Html2PdfServiceBundle)
 
 
 ## TO-DO
