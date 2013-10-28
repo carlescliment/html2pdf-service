@@ -45,8 +45,8 @@ $app['default_settings'] = function() {
     return array(
         'encoding' => 'latin-1',
         'page-size' => 'Letter',
-        )
-}
+        );
+};
 
 $app->run();
 ```
