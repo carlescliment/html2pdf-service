@@ -5,8 +5,7 @@ namespace carlescliment\Html2Pdf\Application;
 use Silex\Application as SilexApplication;
 use Symfony\Component\HttpFoundation\Request;
 
-use carlescliment\Html2Pdf\Generator\PdfGenerator,
-    carlescliment\Html2Pdf\Generator\Configuration;
+use carlescliment\Html2Pdf\Generator\PdfGenerator;
 use carlescliment\Html2Pdf\Exception\DocumentAlreadyExistsException;
 use Knp\Snappy\Pdf;
 
@@ -34,6 +33,13 @@ class Application extends SilexApplication
 
     private function initializeDependencies()
     {
+        $this['default_options'] = function() {
+            return array(
+                'page-size' => 'A4',
+                'encoding' => 'UTF-8',
+                );
+        };
+
         $this['documents_dir'] = function(SilexApplication $app) {
             return $this->rootDir . 'documents';
         };
@@ -43,10 +49,9 @@ class Application extends SilexApplication
         };
 
         $this['pdf_generator'] = function(SilexApplication $app) {
-            $pdf_maker = new Pdf($app['pdf_binary']);
+            $pdf_maker = new Pdf($app['pdf_binary'], $app['default_options']);
             $documents_dir = $app['documents_dir'];
-            $configuration = new Configuration;
-            return new PdfGenerator($pdf_maker, $configuration, $documents_dir);
+            return new PdfGenerator($pdf_maker, $documents_dir);
         };
     }
 

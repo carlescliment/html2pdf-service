@@ -9,14 +9,12 @@ class PdfGenerator
 {
 
     private $pdfGenerator;
-    private $configuration;
     private $outputDir;
 
 
-    public function __construct(GeneratorInterface $pdfGenerator, Configuration $configuration, $output_dir)
+    public function __construct(GeneratorInterface $pdfGenerator, $output_dir)
     {
         $this->pdfGenerator = $pdfGenerator;
-        $this->configuration = $configuration;
         $this->outputDir = $output_dir;
     }
 
@@ -25,8 +23,7 @@ class PdfGenerator
     {
         $document_path = $this->filePath($resource_name);
         try {
-            $this->configuration->configure($this->pdfGenerator, $options);
-            $this->pdfGenerator->generateFromHtml($html, $document_path);
+            $this->pdfGenerator->generateFromHtml($html, $document_path, $options);
         }
         catch (\InvalidArgumentException $e) {
             throw new DocumentAlreadyExistsException($e->getMessage());

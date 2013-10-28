@@ -12,52 +12,25 @@ class PdfGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp() {
         $this->pdfGenerator = $this->getMock('Knp\Snappy\GeneratorInterface');
-        $this->configurator = $this->getMock('carlescliment\Html2Pdf\Generator\Configuration');
-        $this->generator = new PdfGenerator($this->pdfGenerator, $this->configurator, '/some/dir');
+        $this->generator = new PdfGenerator($this->pdfGenerator, '/some/dir');
     }
 
 
     /**
      * @test
      */
-    public function itGeneratesTheGivenHtml()
+    public function itGeneratesTheDocumentWithTheGivenOptions()
     {
         $html = '<html><body>foo</body></html>';
-
-        $this->pdfGenerator->expects($this->once())
-            ->method('generateFromHtml')
-            ->with($html);
-
-        $this->generator->generate('filename', $html);
-    }
-
-
-    /**
-     * @test
-     */
-    public function itSetsTheDocumentOptions()
-    {
         $options = array('encoding' => 'UTF-8');
 
-        $this->configurator->expects($this->once())
-            ->method('configure')
-            ->with($this->pdfGenerator, $options);
-
-        $this->generator->generate('filename', '', $options);
-    }
-
-
-    /**
-     * @test
-     */
-    public function itPutsTheFileInTheSpecifiedFolder()
-    {
         $this->pdfGenerator->expects($this->once())
             ->method('generateFromHtml')
-            ->with(null, '/some/dir/filename.pdf');
+            ->with($html, '/some/dir/filename.pdf', $options);
 
-        $this->generator->generate('filename', null);
+        $this->generator->generate('filename', $html, $options);
     }
+
 
 
     /**
