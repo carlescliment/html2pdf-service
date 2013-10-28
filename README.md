@@ -1,6 +1,9 @@
 html2pdf-service
 ================
 
+[![Build Status](https://travis-ci.org/carlescliment/html2pdf-service.png)](https://travis-ci.org/carlescliment/html2pdf-service)
+
+
 A REST microservice that converts html input into pdf files. Written in Silex.
 
 
