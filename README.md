@@ -6,10 +6,55 @@ A REST microservice that converts html input into pdf files. Written in Silex.
 
 ## Installation
 
-Add permissions to the documents folder.
+Download or clone this repository. Then, add permissions to the documents folder:
 
 ```
 $ APACHEUSER=`ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1`
 $ sudo setfacl -R -m u:$APACHEUSER:rwX -m u:`whoami`:rwX documents
 $ sudo setfacl -dR -m u:$APACHEUSER:rwX -m u:`whoami`:rwX documents
 ```
+
+Configure the web server to attend requests to your installation.
+
+
+## Usage
+
+Three different operations are provided:
+
+| Verb          | Route            | Request parameters | Description         |
+| ------------- | ---------------- | ------------------ | ------------------- |
+| PUT           | /{resource_name} | content            | Generates the PDF resource {resource_name} from the given html content |
+| GET           | /{resource_name} |                    | Brings the document |
+| DELETE        | /{resource_name} |                    | Deletes the document, if exists |
+
+
+The response is always a json with a `body` key. In the GET case, it can also contain an `encoding` key telling telling the encoding used to return the document.
+
+
+
+## Override default configuration
+
+In your `web/app.php` file, include your settings like the following example:
+
+```
+$app = new Application(__DIR__ . '/../', false);
+
+$app['default_settings'] = function() {
+    return array(
+        'encoding' => 'latin-1',
+        'page-size' => 'Letter',
+        )
+}
+
+$app->run();
+```
+
+
+## Client-side implementations
+
+(Symfony 2 Bundle)[https://github.com/carlescliment/Html2PdfServiceBundle]
+
+
+## TO-DO
+
+* Allow overriding default options from the client side
