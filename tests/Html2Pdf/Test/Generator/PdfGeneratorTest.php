@@ -12,7 +12,8 @@ class PdfGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function setUp() {
         $this->pdfGenerator = $this->getMock('Knp\Snappy\GeneratorInterface');
-        $this->generator = new PdfGenerator($this->pdfGenerator, '/some/dir', '/web/documents');
+        $this->configurator = $this->getMock('carlescliment\Html2Pdf\Generator\Configuration');
+        $this->generator = new PdfGenerator($this->pdfGenerator, $this->configurator, '/some/dir');
     }
 
 
@@ -28,6 +29,21 @@ class PdfGeneratorTest extends \PHPUnit_Framework_TestCase
             ->with($html);
 
         $this->generator->generate('filename', $html);
+    }
+
+
+    /**
+     * @test
+     */
+    public function itSetsTheDocumentOptions()
+    {
+        $options = array('encoding' => 'UTF-8');
+
+        $this->configurator->expects($this->once())
+            ->method('configure')
+            ->with($this->pdfGenerator, $options);
+
+        $this->generator->generate('filename', '', $options);
     }
 
 

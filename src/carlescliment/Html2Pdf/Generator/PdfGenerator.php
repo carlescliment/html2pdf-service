@@ -9,20 +9,23 @@ class PdfGenerator
 {
 
     private $pdfGenerator;
+    private $configuration;
     private $outputDir;
 
 
-    public function __construct(GeneratorInterface $pdfGenerator, $output_dir)
+    public function __construct(GeneratorInterface $pdfGenerator, Configuration $configuration, $output_dir)
     {
         $this->pdfGenerator = $pdfGenerator;
+        $this->configuration = $configuration;
         $this->outputDir = $output_dir;
     }
 
 
-    public function generate($resource_name, $html)
+    public function generate($resource_name, $html, array $options = array())
     {
         $document_path = $this->filePath($resource_name);
         try {
+            $this->configuration->configure($this->pdfGenerator, $options);
             $this->pdfGenerator->generateFromHtml($html, $document_path);
         }
         catch (\InvalidArgumentException $e) {
