@@ -40,7 +40,20 @@ class Application extends SilexApplication
 
         $this['documents_dir'] = $this->rootDir . 'documents' ;
 
-        $this['pdf_binary'] = $this->rootDir . 'bin' . DIRECTORY_SEPARATOR . 'wkhtmltopdf-linux';
+        $this['platform'] = 'linux-amd64';
+
+        $this['pdf_binary'] = function(SilexApplication $app) {
+            $binaries = array(
+                'linux-amd64' => 'wkhtmltopdf-linux-amd64',
+                'linux-i368' => 'wkhtmltopdf-linux-i368',
+                'mac' => 'wkhtmltopdf-mac',
+                );
+            if (!isset($binaries[$app['platform']])) {
+                $message = sprintf('No binaries are configured for the selected platform [%s]', $app['platform']);
+                throw new \Exception($message);
+            }
+            return $this->rootDir . 'bin' . DIRECTORY_SEPARATOR . $binaries[$app['platform']];
+        };
 
         $this['pdf_generator'] = function(SilexApplication $app) {
             $pdf_maker = new Pdf($app['pdf_binary'], $app['default_options']);
