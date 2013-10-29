@@ -40,7 +40,7 @@ class Application extends SilexApplication
 
         $this['documents_dir'] = $this->rootDir . 'documents' ;
 
-        $this['pdf_binary'] = $this->rootDir . 'bin' . DIRECTORY_SEPARATOR . 'wkhtmltopdf';
+        $this['pdf_binary'] = $this->rootDir . 'bin' . DIRECTORY_SEPARATOR . 'wkhtmltopdf-linux';
 
         $this['pdf_generator'] = function(SilexApplication $app) {
             $pdf_maker = new Pdf($app['pdf_binary'], $app['default_options']);
