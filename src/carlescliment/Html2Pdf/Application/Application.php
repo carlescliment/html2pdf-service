@@ -38,13 +38,9 @@ class Application extends SilexApplication
             'encoding' => 'UTF-8',
             );
 
-        $this['documents_dir'] = function(SilexApplication $app) {
-            return $app->getRootDir() . 'documents';
-        };
+        $this['documents_dir'] = $this->rootDir . 'documents' ;
 
-        $this['pdf_binary'] = function(SilexApplication $app) {
-            return $app->getRootDir() . 'bin/wkhtmltopdf';
-        };
+        $this['pdf_binary'] = $this->rootDir . 'bin' . DIRECTORY_SEPARATOR . 'wkhtmltopdf';
 
         $this['pdf_generator'] = function(SilexApplication $app) {
             $pdf_maker = new Pdf($app['pdf_binary'], $app['default_options']);
@@ -98,9 +94,4 @@ class Application extends SilexApplication
         return $this['documents_dir'] . '/' . $resource .'.pdf';
     }
 
-
-    public function getRootDir()
-    {
-        return $this->rootDir;
-    }
 }
