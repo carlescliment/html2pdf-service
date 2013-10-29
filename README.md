@@ -44,12 +44,11 @@ In your `web/app.php` file, include your settings like the following example:
 ```
 $app = new Application(__DIR__ . '/../', false);
 
-$app['default_settings'] = function() {
-    return array(
-        'encoding' => 'latin-1',
-        'page-size' => 'Letter',
-        );
-};
+$app['default_settings'] = array(
+    'encoding' => 'latin-1',
+    'page-size' => 'Letter',
+    );
+
 
 $app->run();
 ```

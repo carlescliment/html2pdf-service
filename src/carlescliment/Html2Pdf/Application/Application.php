@@ -33,12 +33,10 @@ class Application extends SilexApplication
 
     private function initializeDependencies()
     {
-        $this['default_options'] = function() {
-            return array(
-                'page-size' => 'A4',
-                'encoding' => 'UTF-8',
-                );
-        };
+        $this['default_options'] = array(
+            'page-size' => 'A4',
+            'encoding' => 'UTF-8',
+            );
 
         $this['documents_dir'] = function(SilexApplication $app) {
             return $app->getRootDir() . 'documents';
