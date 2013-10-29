@@ -33,6 +33,8 @@ class Application extends SilexApplication
 
     private function initializeDependencies()
     {
+        $this['root_dir'] = $this->rootDir;
+
         $this['default_options'] = array(
             'page-size' => 'A4',
             'encoding' => 'UTF-8',
@@ -52,7 +54,7 @@ class Application extends SilexApplication
                 $message = sprintf('No binaries are configured for the selected platform [%s]', $app['platform']);
                 throw new \Exception($message);
             }
-            return $this->rootDir . 'bin' . DIRECTORY_SEPARATOR . $binaries[$app['platform']];
+            return $app['root_dir'] . 'bin' . DIRECTORY_SEPARATOR . $binaries[$app['platform']];
         };
 
         $this['pdf_generator'] = function(SilexApplication $app) {
