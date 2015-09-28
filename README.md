@@ -10,6 +10,8 @@ A REST microservice that converts html input into pdf files. Written in PHP on S
 
 - PHP 5.3 or higher.
 - A web server able to execute php code.
+- libcurl: `apt-get install php5-curl`
+- intl: `apt-get install php5-intl`
 
 
 ## Installation

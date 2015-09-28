@@ -79,8 +79,9 @@ class Application extends SilexApplication
 
         $this->put('/{resource}', function (SilexApplication $app, Request $request, $resource) {
             $content = $request->get('content');
+            $options = array('footer-left' => $request->get('footer-left'));
             try {
-                $app['pdf_generator']->generate($resource, $content);
+                $app['pdf_generator']->generate($resource, $content, $options);
             }
             catch (DocumentAlreadyExistsException $e)
             {
