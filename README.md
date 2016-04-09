@@ -4,7 +4,7 @@ html2pdf-service
 [![Build Status](https://travis-ci.org/carlescliment/html2pdf-service.png)](https://travis-ci.org/carlescliment/html2pdf-service)
 
 
-A REST microservice that converts html input into pdf files. Written in PHP on Silex, it uses the [KNP snappy lib](https://github.com/KnpLabs/snappy), which works over [Google's khtmltopdf](http://code.google.com/p/wkhtmltopdf/).
+A REST microservice that converts html input into pdf files. Written in PHP on Silex, it uses the [KNP snappy lib](https://github.com/KnpLabs/snappy), which works over [wkhtmltopdf](http://wkhtmltopdf.org/).
 
 ## Prerequisites
 
@@ -68,7 +68,7 @@ $app['default_settings'] = array(
 $app->run();
 ```
 
-Take a look at the [wkhtmltopdf](http://madalgo.au.dk/~jakobt/wkhtmltoxdoc/wkhtmltopdf-0.9.9-doc.html) reference for further information.
+Take a look at the [wkhtmltopdf](http://wkhtmltopdf.org/usage/wkhtmltopdf.txt) reference for further information.
 
 
 ## Usage
